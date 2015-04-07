@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		32C3B80B1AD3942E00E97EF2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32C3B80A1AD3942E00E97EF2 /* main.cpp */; };
+		32C3B8131AD3971600E97EF2 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32C3B8111AD3971600E97EF2 /* GLUT.framework */; };
+		32C3B8141AD3971600E97EF2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32C3B8121AD3971600E97EF2 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,8 @@
 /* Begin PBXFileReference section */
 		32C3B8071AD3942E00E97EF2 /* MIDIot */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MIDIot; sourceTree = BUILT_PRODUCTS_DIR; };
 		32C3B80A1AD3942E00E97EF2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		32C3B8111AD3971600E97EF2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		32C3B8121AD3971600E97EF2 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +36,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32C3B8131AD3971600E97EF2 /* GLUT.framework in Frameworks */,
+				32C3B8141AD3971600E97EF2 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +47,8 @@
 		32C3B7FE1AD3942E00E97EF2 = {
 			isa = PBXGroup;
 			children = (
+				32C3B8111AD3971600E97EF2 /* GLUT.framework */,
+				32C3B8121AD3971600E97EF2 /* OpenGL.framework */,
 				32C3B8091AD3942E00E97EF2 /* MIDIot */,
 				32C3B8081AD3942E00E97EF2 /* Products */,
 			);
