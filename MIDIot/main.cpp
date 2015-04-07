@@ -75,6 +75,9 @@ void dibuja()
     }
     glEnd();
     
+    drawText(-500, -480, 1, "60", GLUT_BITMAP_9_BY_15);//score
+    drawText(100, -480, 1, "10000", GLUT_BITMAP_9_BY_15);//score
+    
 //    rectangulo fondo blanco
     glColor3f(1, 1, 1);
     glRectd(-an, -an, an, an);
