@@ -11,6 +11,7 @@
 #include <ctime>
 
 int score=0;
+int an=640,al=480;
 
 void myTimer(int v)
 {
@@ -58,6 +59,26 @@ void dibuja()
 {
     //puntos actuales jugador y dealer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    
+    glLineWidth(2);
+    glColor3f(0.0, 0.0, 0.0);
+    glBegin(GL_LINES);
+    for (int i=0; i<10; i++) {
+        if(i<5){
+            glVertex3f(-480, 430-i*25, 0);
+            glVertex3f(480, 430-i*25, 0);
+        }else{
+            glVertex3f(-480, 430-i*25-50, 0);
+            glVertex3f(480, 430-i*25-50, 0);
+        }
+    }
+    glEnd();
+    
+//    rectangulo fondo blanco
+    glColor3f(1, 1, 1);
+    glRectd(-an, -an, an, an);
+    
     
     glutSwapBuffers();
 }
