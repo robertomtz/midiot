@@ -29,6 +29,7 @@
 		32C3B80A1AD3942E00E97EF2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		32C3B8111AD3971600E97EF2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		32C3B8121AD3971600E97EF2 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		32D8778C1ADED8AE00504639 /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtMidi.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				32C3B80A1AD3942E00E97EF2 /* main.cpp */,
+				32D8778C1ADED8AE00504639 /* RtMidi.h */,
 			);
 			path = MIDIot;
 			sourceTree = "<group>";
@@ -240,6 +242,7 @@
 				32C3B8101AD3942E00E97EF2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
