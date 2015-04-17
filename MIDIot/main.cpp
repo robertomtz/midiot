@@ -14,16 +14,23 @@
 #include "RtMidi.h"
 
 int score=0;
+int tiempo=60;
 int an=640,al=480;
 bool done;
 static void finish(int ignore){ done = true; }
 int posXNotes=-400;
+bool start=false;
 
 void myTimer(int v)
 {
+    if(start){
+        tiempo--;
+    }
+    if (tiempo==0){
+        start=false;
+    }
     glutPostRedisplay();
-    glutTimerFunc(5, myTimer, 1);
-    
+    glutTimerFunc(1000, myTimer, 1);
 }
 
 void init()
@@ -103,11 +110,13 @@ void dibuja()
  
     drawText(4000, 4800, .1, "MIDI OT", GLUT_BITMAP_9_BY_15);
     
-    drawText(-300, 0, 1, "PRESS S", GLUT_BITMAP_9_BY_15);
-    drawText(-300, -150, 1, "TO START", GLUT_BITMAP_9_BY_15);
+    if(!start){
+        drawText(-300, 0, 1, "PRESS S", GLUT_BITMAP_9_BY_15);
+        drawText(-300, -150, 1, "TO START", GLUT_BITMAP_9_BY_15);
+    }
     
-    drawText(-500, -480, 1, "60", GLUT_BITMAP_9_BY_15);//time
-    drawText(100, -480, 1, "10000", GLUT_BITMAP_9_BY_15);//score
+    drawText(-500, -480, 1, toString(tiempo), GLUT_BITMAP_9_BY_15);//time
+    drawText(100, -480, 1, toString(score), GLUT_BITMAP_9_BY_15);//score
     
 //    rectangulo fondo blanco
     glColor3f(1, 1, 1);
@@ -117,10 +126,18 @@ void dibuja()
     glutSwapBuffers();
 }
 
-
-void myKey(unsigned char theKey, int mouseX, int mouseY){
+void myKey(unsigned char theKey, int mouseX, int mouseY)
+{
     switch (theKey)
     {
+        case 's':
+        case 'S':
+            if(!start){
+                start=true;
+                tiempo=60;
+            }
+            break;
+            
         default:
             break;		      // do nothing
     }
