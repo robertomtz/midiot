@@ -17,6 +17,7 @@ int score=0;
 int an=640,al=480;
 bool done;
 static void finish(int ignore){ done = true; }
+int posXNotes=-400;
 
 void myTimer(int v)
 {
@@ -80,6 +81,26 @@ void dibuja()
     }
     glEnd();
     
+    //C4
+    glPushMatrix();
+    glTranslatef(0, 290, 0);
+    glutSolidSphere(12,12, 12);
+    glPopMatrix();
+    
+    //Las demas notas
+    int incrementeNote=0;
+    for (int i=0; i<21; i++) {
+        incrementeNote+=12+(i%2);
+        if (i==10) {
+            incrementeNote+=40;
+            i++;
+        }
+        glPushMatrix();
+        glTranslatef(posXNotes+40*i, 140+incrementeNote, 0);
+        glutSolidSphere(12,12, 12);
+        glPopMatrix();
+    }
+ 
     drawText(4000, 4800, .1, "MIDI OT", GLUT_BITMAP_9_BY_15);
     
     drawText(-300, 0, 1, "PRESS S", GLUT_BITMAP_9_BY_15);
@@ -125,35 +146,35 @@ int main(int argc, char *argv[])
 {
     srand (time(NULL));
     
-    RtMidiIn *midiin = new RtMidiIn();
-    std::vector<unsigned char> message;
-    int nBytes, i;
-    double stamp;
-    // Check available ports.
-    unsigned int nPorts = midiin->getPortCount();
-    if ( nPorts == 0 ) {
-        std::cout << "No ports available!\n";
-        goto cleanup;
-    }
-    midiin->openPort( 0 );
-    // Don't ignore sysex, timing, or active sensing messages.
-    midiin->ignoreTypes( false, false, false );
-    // Install an interrupt handler function.
-    done = false;
-    (void) signal(SIGINT, finish);
-    // Periodically check input queue.
-    std::cout << "Reading MIDI from port ... quit with Ctrl-C.\n";
-    while ( !done ) {
-        stamp = midiin->getMessage( &message );
-        nBytes = message.size();
-        for ( i=0; i<nBytes; i++ )
-            std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
-        if ( nBytes > 0 )
-            std::cout << "stamp = " << stamp << std::endl;
-    }
-    // Clean up
-cleanup:
-    delete midiin;
+//    RtMidiIn *midiin = new RtMidiIn();
+//    std::vector<unsigned char> message;
+//    int nBytes, i;
+//    double stamp;
+//    // Check available ports.
+//    unsigned int nPorts = midiin->getPortCount();
+//    if ( nPorts == 0 ) {
+//        std::cout << "No ports available!\n";
+//        goto cleanup;
+//    }
+//    midiin->openPort( 0 );
+//    // Don't ignore sysex, timing, or active sensing messages.
+//    midiin->ignoreTypes( false, false, false );
+//    // Install an interrupt handler function.
+//    done = false;
+//    (void) signal(SIGINT, finish);
+//    // Periodically check input queue.
+//    std::cout << "Reading MIDI from port ... quit with Ctrl-C.\n";
+//    while ( !done ) {
+//        stamp = midiin->getMessage( &message );
+//        nBytes = message.size();
+//        for ( i=0; i<nBytes; i++ )
+//            std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
+//        if ( nBytes > 0 )
+//            std::cout << "stamp = " << stamp << std::endl;
+//    }
+//    // Clean up
+//cleanup:
+//    delete midiin;
     
     
     glutInit(&argc, argv);
