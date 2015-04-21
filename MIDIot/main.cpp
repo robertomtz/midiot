@@ -50,7 +50,7 @@ std::string cToString(char a){
 std::string toString(int value) {
     std::stringstream ss;
     ss << value;
-    return ss.str();
+    return ss.str().substr(0,ss.str().find('.'));
 }
 
 void drawText(float x, float y, float size, std::string text, void* font) {
