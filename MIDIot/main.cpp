@@ -10,6 +10,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <signal.h>
+#include <time.h>
 #include "RtMidi.h"
 bool done;
 static void finish(int ignore){ done = true; }
@@ -27,6 +28,10 @@ double tiempo=60;
 int an=640,al=480;
 int posXNotes=-400;
 bool start=false;
+
+int getRanNumber() {
+    return rand() % 14;
+}
 
 void myTimer(int v)
 {
@@ -173,6 +178,7 @@ void reshape(int ancho, int alto)
 
 int main(int argc, char *argv[])
 {
+    srand (time(NULL));
     // RtMidiIn constructor
     try {
         midiin = new RtMidiIn();
