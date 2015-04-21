@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <sstream>
 #include <iostream>
-#include <ctime>
 #include <cstdlib>
 #include <signal.h>
 #include "RtMidi.h"
@@ -161,38 +160,18 @@ void reshape(int ancho, int alto)
 
 int main(int argc, char *argv[])
 {
-    srand (time(NULL));
     
-//    RtMidiIn *midiin = new RtMidiIn();
-//    std::vector<unsigned char> message;
-//    int nBytes, i;
-//    double stamp;
-//    // Check available ports.
-//    unsigned int nPorts = midiin->getPortCount();
-//    if ( nPorts == 0 ) {
-//        std::cout << "No ports available!\n";
-//        goto cleanup;
-//    }
-//    midiin->openPort( 0 );
-//    // Don't ignore sysex, timing, or active sensing messages.
-//    midiin->ignoreTypes( false, false, false );
-//    // Install an interrupt handler function.
-//    done = false;
-//    (void) signal(SIGINT, finish);
-//    // Periodically check input queue.
-//    std::cout << "Reading MIDI from port ... quit with Ctrl-C.\n";
-//    while ( !done ) {
-//        stamp = midiin->getMessage( &message );
-//        nBytes = message.size();
-//        for ( i=0; i<nBytes; i++ )
-//            std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
-//        if ( nBytes > 0 )
-//            std::cout << "stamp = " << stamp << std::endl;
-//    }
-//    // Clean up
-//cleanup:
-//    delete midiin;
-    
+    RtMidiIn *midiin = 0;
+    // RtMidiIn constructor
+    try {
+        midiin = new RtMidiIn();
+    }
+    catch (RtMidiError &error) {
+        // Handle the exception here
+        error.printMessage();
+    }
+    // Clean up
+    delete midiin;
     
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
