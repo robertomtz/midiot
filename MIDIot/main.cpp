@@ -14,8 +14,16 @@
 bool done;
 static void finish(int ignore){ done = true; }
 
+int notaCordenada[15]={190, 202, 215, 227, 240, 252 ,265, 290, 317, 329, 342, 354, 367, 379};
+std::string notaNombre[15]={"C3","D3","E3","F3","G3","A4","B4","C4","D4","E4","F4","G4","A5","B5"};
+
+RtMidiIn  *midiin = 0;
+std::vector<unsigned char> message;
+int nBytes, i;
+double stamp;
+
 int score=0;
-int tiempo=60;
+double tiempo=60;
 int an=640,al=480;
 int posXNotes=-400;
 bool start=false;
@@ -23,13 +31,24 @@ bool start=false;
 void myTimer(int v)
 {
     if(start){
-        tiempo--;
+        tiempo-=.01;
     }
     if (tiempo==0){
         start=false;
     }
+    
+    if ( !done ) {
+        stamp = midiin->getMessage( &message );
+        nBytes = message.size();
+        for ( i=0; i<nBytes; i++ )
+            std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
+        if ( nBytes > 0 )
+            std::cout << "stamp = " << stamp << std::endl;
+        // Sleep for 10 milliseconds ... platform-dependent.
+    }
+    
     glutPostRedisplay();
-    glutTimerFunc(1000, myTimer, 1);
+    glutTimerFunc(10, myTimer, 1);
 }
 
 void init()
@@ -47,7 +66,7 @@ std::string cToString(char a){
     return ss.str();
 }
 
-std::string toString(int value) {
+std::string toString(double value) {
     std::stringstream ss;
     ss << value;
     return ss.str().substr(0,ss.str().find('.'));
@@ -87,22 +106,10 @@ void dibuja()
     }
     glEnd();
     
-    //C4
-    glPushMatrix();
-    glTranslatef(0, 290, 0);
-    glutSolidSphere(12,12, 12);
-    glPopMatrix();
-    
     //Las demas notas
-    int incrementeNote=0;
-    for (int i=0; i<21; i++) {
-        incrementeNote+=12+(i%2);
-        if (i==10) {
-            incrementeNote+=40;
-            i++;
-        }
+    for (int i=0; i<15; i++) {
         glPushMatrix();
-        glTranslatef(posXNotes+40*i, 140+incrementeNote, 0);
+        glTranslatef(posXNotes+40*i, notaCordenada[i], 0);
         glutSolidSphere(12,12, 12);
         glPopMatrix();
     }
@@ -166,7 +173,6 @@ void reshape(int ancho, int alto)
 
 int main(int argc, char *argv[])
 {
-    RtMidiIn  *midiin = 0;
     // RtMidiIn constructor
     try {
         midiin = new RtMidiIn();
@@ -189,9 +195,7 @@ int main(int argc, char *argv[])
         std::cout << "  Input Port #" << i+1 << ": " << portName << '\n';
     }
 
-    std::vector<unsigned char> message;
-    int nBytes, i;
-    double stamp;
+    
     midiin->openPort( 0 );
     // Don't ignore sysex, timing, or active sensing messages.
     midiin->ignoreTypes( false, false, false );
@@ -200,19 +204,6 @@ int main(int argc, char *argv[])
     (void) signal(SIGINT, finish);
     // Periodically check input queue.
     std::cout << "Reading MIDI from port ...";
-    while ( !done ) {
-        stamp = midiin->getMessage( &message );
-        nBytes = message.size();
-        for ( i=0; i<nBytes; i++ )
-            std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
-        if ( nBytes > 0 )
-            std::cout << "stamp = " << stamp << std::endl;
-        // Sleep for 10 milliseconds ... platform-dependent.
-        usleep(10000);
-    }
-    // Clean up
-cleanup:
-    delete midiin;
     
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
