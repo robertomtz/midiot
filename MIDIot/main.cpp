@@ -22,6 +22,7 @@ RtMidiIn  *midiin = 0;
 std::vector<unsigned char> message;
 int nBytes, i;
 double stamp;
+bool midiConnected = false;
 
 int score=0;
 double tiempo=60;
@@ -42,7 +43,7 @@ void myTimer(int v)
         start=false;
     }
     
-    if ( !done ) {
+    if ( !done && midiConnected ) {
         stamp = midiin->getMessage( &message );
         nBytes = message.size();
         for ( i=0; i<nBytes; i++ )
@@ -190,6 +191,9 @@ int main(int argc, char *argv[])
     // Check inputs.
     unsigned int nPorts = midiin->getPortCount();
     std::cout << "\nThere are " << nPorts << " MIDI input sources available.\n";
+    if (nPorts > 0) {
+        midiConnected = true;
+    }
     std::string portName;
     for ( unsigned int i=0; i<nPorts; i++ ) {
         try {
@@ -201,15 +205,19 @@ int main(int argc, char *argv[])
         std::cout << "  Input Port #" << i+1 << ": " << portName << '\n';
     }
 
-    
-    midiin->openPort( 0 );
-    // Don't ignore sysex, timing, or active sensing messages.
-    midiin->ignoreTypes( false, false, false );
-    // Install an interrupt handler function.
-    done = false;
-    (void) signal(SIGINT, finish);
-    // Periodically check input queue.
-    std::cout << "Reading MIDI from port ...";
+    if (midiConnected) {
+        midiin->openPort( 0 );
+        // Don't ignore sysex, timing, or active sensing messages.
+        midiin->ignoreTypes( false, false, false );
+        // Install an interrupt handler function.
+        done = false;
+        (void) signal(SIGINT, finish);
+        // Periodically check input queue.
+        std::cout << "Reading MIDI from port ...";
+    } else {
+        std::cout << "No MIDI device connected";
+    }
+
     
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
