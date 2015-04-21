@@ -136,6 +136,13 @@ void myKey(unsigned char theKey, int mouseX, int mouseY)
                 tiempo=60;
             }
             break;
+        case 'p':
+        case 'P':
+            start = false;
+        case 27:
+            exit(-1);
+            //terminate the program
+            break;
             
         default:
             break;		      // do nothing
@@ -155,7 +162,6 @@ void reshape(int ancho, int alto)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(0, 0, 200, 0, 0, 0, 0, 1, 0);
-    
 }
 
 int main(int argc, char *argv[])
