@@ -11,12 +11,12 @@
 #include <cstdlib>
 #include <signal.h>
 #include "RtMidi.h"
+bool done;
+static void finish(int ignore){ done = true; }
 
 int score=0;
 int tiempo=60;
 int an=640,al=480;
-bool done;
-static void finish(int ignore){ done = true; }
 int posXNotes=-400;
 bool start=false;
 
@@ -160,17 +160,52 @@ void reshape(int ancho, int alto)
 
 int main(int argc, char *argv[])
 {
-    
-    RtMidiIn *midiin = 0;
+    RtMidiIn  *midiin = 0;
     // RtMidiIn constructor
     try {
         midiin = new RtMidiIn();
     }
-    catch (RtMidiError &error) {
-        // Handle the exception here
+    catch ( RtMidiError &error ) {
         error.printMessage();
+        exit( EXIT_FAILURE );
+    }
+    // Check inputs.
+    unsigned int nPorts = midiin->getPortCount();
+    std::cout << "\nThere are " << nPorts << " MIDI input sources available.\n";
+    std::string portName;
+    for ( unsigned int i=0; i<nPorts; i++ ) {
+        try {
+            portName = midiin->getPortName(i);
+        }
+        catch ( RtMidiError &error ) {
+            error.printMessage();
+        }
+        std::cout << "  Input Port #" << i+1 << ": " << portName << '\n';
+    }
+
+    std::vector<unsigned char> message;
+    int nBytes, i;
+    double stamp;
+    midiin->openPort( 0 );
+    // Don't ignore sysex, timing, or active sensing messages.
+    midiin->ignoreTypes( false, false, false );
+    // Install an interrupt handler function.
+    done = false;
+    (void) signal(SIGINT, finish);
+    // Periodically check input queue.
+    std::cout << "Reading MIDI from port ...";
+    while ( !done ) {
+        stamp = midiin->getMessage( &message );
+        nBytes = message.size();
+        for ( i=0; i<nBytes; i++ )
+            std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
+        if ( nBytes > 0 )
+            std::cout << "stamp = " << stamp << std::endl;
+        // Sleep for 10 milliseconds ... platform-dependent.
+        usleep(10000);
     }
     // Clean up
+cleanup:
     delete midiin;
     
     glutInit(&argc, argv);
