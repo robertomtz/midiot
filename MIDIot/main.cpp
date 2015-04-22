@@ -155,6 +155,15 @@ void myTimer(int v)
         start=false;
         endGame=true;
     }
+    
+    if (puntosMenos==1000) {
+        score-=puntosMenos;
+        notaActual=getRanNumber();
+        puntosMenos=0;
+        help=false;
+    }
+    
+    std::cout<<puntosMenos/2<<std::endl;
 
     if ( (!done) && midiConnected ) {
         stamp = midiin->getMessage( &message );
@@ -171,9 +180,9 @@ void myTimer(int v)
                     entraUno=false;
                     posXNotes+=50;
                     if(notaOprimidaActual==notaActual){
-                        score+=500-puntosMenos;
+                        score+=1000-puntosMenos/2;
                     } else{
-                        score-=(200+puntosMenos);
+                        score-=(200+puntosMenos/2);
                     }
                     if (posXNotes==500) {
                         posXNotes=-350;
@@ -243,22 +252,25 @@ void dibuja()
     glColor3f(0.0, 0.0, 0.0);
     
     if(endGame){
-        drawText(-1650, 900, .3, "Good Job! Your Final Score is: " +toString(score), GLUT_BITMAP_9_BY_15);
-        drawText(-1650, 750, .3, "Press S to start again!", GLUT_BITMAP_9_BY_15);
+        drawText(-1100, 800, .4, "Your Final Score is: " +toString(score), GLUT_BITMAP_9_BY_15);
         glColor3f(1, 1, 1);
-        glRectd(-an, 120, an, an);
+        glRectd(-an, 300, an, an);
+        glColor3f(0, 0, 0);
+        drawText(-1100, -800, .4, "Press S to start again!", GLUT_BITMAP_9_BY_15);
+        glColor3f(1, 1, 1);
+        glRectd(-an, -an, an, -200);
     }
 
-    if (entrar){
+    if (entrar && !endGame){
         if(start && help){
             drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
         }
         glPushMatrix();
         glTranslatef(posXNotes, notaCordenada[notaOprimidaActual], 0);
+        glColor3f(0.0, 1.0, 0.0);
         if(notaNombre[notaOprimidaActual].find("#")!=-1){
             drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
         }
-        glColor3f(0.0, 1.0, 0.0);
         glutSolidSphere(12,12, 12);
         glPopMatrix();
 
@@ -420,7 +432,7 @@ void myKey(unsigned char theKey, int mouseX, int mouseY)
         case 'h':
             help=!help;
             if (help){
-                puntosMenos+=50;
+                score-=50;
             }
             break;
             
@@ -459,7 +471,7 @@ int main(int argc, char *argv[])
 //    glEnable(GL_DEPTH_TEST);
     glutKeyboardFunc(myKey);
     glutDisplayFunc(dibuja);
-    glutTimerFunc(5, myTimer, 1);
+    glutTimerFunc(10, myTimer, 1);
     glutReshapeFunc(reshape);
     glutMainLoop();
     return 0;
