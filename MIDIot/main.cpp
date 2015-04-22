@@ -34,8 +34,8 @@ bool notePressed=false;
 bool pausa=false;
 bool entrar=false;
 
-int score=0;
-double tiempo=60;
+int score=1000;
+double tiempo=30;
 int an=640,al=480;
 int posXNotes=-350;
 bool start=false;
@@ -43,6 +43,8 @@ bool start=false;
 int notaActual=0;
 int notaOprimidaActual=12;
 bool entraUno= false;
+int puntosMenos=0;
+bool help=false;
 
 
 
@@ -146,6 +148,7 @@ void myTimer(int v)
 {
     if(start && !pausa){
         tiempo-=0.01;
+        puntosMenos++;
     }
     if (tiempo<=0.01){
         start=false;
@@ -166,14 +169,16 @@ void myTimer(int v)
                     entraUno=false;
                     posXNotes+=50;
                     if(notaOprimidaActual==notaActual){
-                        score+=5000;
+                        score+=500-puntosMenos;
                     } else{
-                        score-=4000;
+                        score-=(200+puntosMenos);
                     }
                     if (posXNotes==500) {
                         posXNotes=-350;
                     }
                     notaActual=getRanNumber();
+                    puntosMenos=0;
+                    help=false;
                 }
             }
         }
@@ -236,7 +241,7 @@ void dibuja()
     glColor3f(0.0, 0.0, 0.0);
 
     if (entrar){
-        if(start){
+        if(start && help){
             drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
         }
         glPushMatrix();
@@ -351,8 +356,9 @@ void dibuja()
             }
         }
 
-        drawText(-500, -480, 1, toString(tiempo), GLUT_BITMAP_9_BY_15); //time
-        drawText(100, -480, 1, toString(score), GLUT_BITMAP_9_BY_15); //score
+        glLineWidth(4);
+        drawText(-1000, -950, .5, toString(tiempo), GLUT_BITMAP_9_BY_15); //time
+        drawText(500, -950, .5, toString(score), GLUT_BITMAP_9_BY_15); //score
     } else{
         glColor3f(1, 1, 1);
         glLineWidth(6);
@@ -387,10 +393,11 @@ void myKey(unsigned char theKey, int mouseX, int mouseY)
         case 'S':
             if(!start){
                 start=true;
-                tiempo=60;
-                score=0;
+                tiempo=30;
+                score=1000;
                 notaActual=getRanNumber();
                 pausa=false;
+                help=false;
             }
             break;
         case 'p':
@@ -406,6 +413,12 @@ void myKey(unsigned char theKey, int mouseX, int mouseY)
             
         case 13:
             entrar=true;
+            break;
+        case 'h':
+            help=!help;
+            if (help){
+                puntosMenos+=50;
+            }
             break;
             
         default:
