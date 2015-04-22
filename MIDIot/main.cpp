@@ -15,8 +15,8 @@
 bool done;
 static void finish(int ignore){ done = true; }
 
-int notaCordenada[15]={190, 202, 215, 227, 240, 252 ,265, 290, 317, 329, 342, 354, 367, 379};
-std::string notaNombre[15]={"C3","D3","E3","F3","G3","A4","B4","C4","D4","E4","F4","G4","A5","B5"};
+int notaCordenada[24]={190, 190, 202, 202, 215, 227, 227, 240, 240, 252, 252 , 265, 290, 290, 317, 317, 329, 342, 342, 354, 354, 367, 367, 379};
+std::string notaNombre[24]={"C3", "C#3", "D3", "D#3", "E3", "F3", "F#3", "G3", "G#3", "A4", "A#4", "B4", "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A5", "A#5", "B5"};
 
 RtMidiIn  *midiin = 0;
 std::vector<unsigned char> message;
@@ -28,7 +28,7 @@ std::string portName;
 int score=0;
 double tiempo=60;
 int an=640,al=480;
-int posXNotes=-400;
+int posXNotes=-480;
 bool start=false;
 
 int getRanNumber() {
@@ -156,9 +156,12 @@ void dibuja()
     glEnd();
     
     //Las demas notas
-    for (int i=0; i<15; i++) {
+    for (int i=0; i<24; i++) {
         glPushMatrix();
         glTranslatef(posXNotes+40*i, notaCordenada[i], 0);
+        if(notaNombre[i].find("#")!=-1){
+            drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
+        }
         glutSolidSphere(12,12, 12);
         glPopMatrix();
     }
