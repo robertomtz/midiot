@@ -30,6 +30,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		32C019DE1AE74B0100511E15 /* imageLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imageLoader.h; sourceTree = "<group>"; };
 		32C3B8071AD3942E00E97EF2 /* MIDIot */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MIDIot; sourceTree = BUILT_PRODUCTS_DIR; };
 		32C3B80A1AD3942E00E97EF2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		32C3B8111AD3971600E97EF2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
@@ -86,6 +87,7 @@
 			children = (
 				32C3B80A1AD3942E00E97EF2 /* main.cpp */,
 				32D65CED1AE6CC6E00E615F6 /* RtMidi.cpp */,
+				32C019DE1AE74B0100511E15 /* imageLoader.h */,
 				32D65CEE1AE6CC6E00E615F6 /* RtMidi.h */,
 			);
 			path = MIDIot;
