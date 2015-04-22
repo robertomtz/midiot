@@ -20,7 +20,7 @@ std::string notaNombre[15]={"C3","D3","E3","F3","G3","A4","B4","C4","D4","E4","F
 
 RtMidiIn  *midiin = 0;
 std::vector<unsigned char> message;
-int nBytes, i;
+int nBytes;
 double stamp;
 bool midiConnected = false;
 
@@ -43,10 +43,10 @@ void myTimer(int v)
         start=false;
     }
     
-    if ( !done && midiConnected ) {
+    if ( (!done) && midiConnected ) {
         stamp = midiin->getMessage( &message );
         nBytes = message.size();
-        for ( i=0; i<nBytes; i++ )
+        for ( int i=0; i<nBytes; i++ )
             std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
         if ( nBytes > 0 )
             std::cout << "stamp = " << stamp << std::endl;
@@ -119,7 +119,7 @@ void dibuja()
         glutSolidSphere(12,12, 12);
         glPopMatrix();
     }
- 
+
     drawText(4000, 4800, .1, "MIDI OT", GLUT_BITMAP_9_BY_15);
     
     if(!start){
