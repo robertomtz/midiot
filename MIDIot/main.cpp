@@ -15,8 +15,8 @@
 bool done;
 static void finish(int ignore){ done = true; }
 
-int notaCordenada[24]={190, 190, 202, 202, 215, 227, 227, 240, 240, 252, 252 , 265, 290, 290, 317, 317, 329, 342, 342, 354, 354, 367, 367, 379};
-std::string notaNombre[24]={"C3", "C#3", "D3", "D#3", "E3", "F3", "F#3", "G3", "G#3", "A4", "A#4", "B4", "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A5", "A#5", "B5"};
+int notaCordenada[25]={190, 190, 202, 202, 215, 227, 227, 240, 240, 252, 252 , 265, 290, 290, 317, 317, 329, 342, 342, 354, 354, 367, 367, 379, 392};
+std::string notaNombre[25]={"C3", "C#3", "D3", "D#3", "E3", "F3", "F#3", "G3", "G#3", "A4", "A#4", "B4", "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A5", "A#5", "B5", "C5"};
 
 RtMidiIn  *midiin = 0;
 std::vector<unsigned char> message;
@@ -24,15 +24,18 @@ int nBytes;
 double stamp;
 bool midiConnected = false;
 std::string portName;
+bool oprimidoMidi=false;
+bool notePressed=false;
 
 int score=0;
 double tiempo=60;
 int an=640,al=480;
-int posXNotes=-480;
+int posXNotes=-500;
 bool start=false;
+int notaActual=0;
 
 int getRanNumber() {
-    return rand() % 14;
+    return rand() % 24;
 }
 
 void createRtMidiIn(){
@@ -89,9 +92,18 @@ void myTimer(int v)
         nBytes = message.size();
         for ( int i=0; i<nBytes; i++ )
             std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
-        if ( nBytes > 0 )
+        if ( nBytes > 0 ){
             std::cout << "stamp = " << stamp << std::endl;
-        // Sleep for 10 milliseconds ... platform-dependent.
+            oprimidoMidi=true;
+            notePressed=!notePressed;
+            if(notePressed){
+                notaActual=getRanNumber();
+                posXNotes+=50;
+                if (posXNotes==500) {
+                    posXNotes=-450;
+                }
+            }
+        }
     }else {
         createRtMidiIn();
     }
@@ -155,16 +167,24 @@ void dibuja()
     }
     glEnd();
     
-    //Las demas notas
-    for (int i=0; i<24; i++) {
-        glPushMatrix();
-        glTranslatef(posXNotes+40*i, notaCordenada[i], 0);
-        if(notaNombre[i].find("#")!=-1){
-            drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
-        }
-        glutSolidSphere(12,12, 12);
-        glPopMatrix();
+    //Dibuja todas las notas
+//    for (int i=0; i<25; i++) {
+//        glPushMatrix();
+//        glTranslatef(posXNotes+40*i, notaCordenada[i], 0);
+//        if(notaNombre[i].find("#")!=-1){
+//            drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
+//        }
+//        glutSolidSphere(12,12, 12);
+//        glPopMatrix();
+//    }
+    
+    glPushMatrix();
+    glTranslatef(posXNotes, notaCordenada[notaActual], 0);
+    if(notaNombre[notaActual].find("#")!=-1){
+        drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
     }
+    glutSolidSphere(12,12, 12);
+    glPopMatrix();
 
     drawText(-2000, 1850, 0.25, portName, GLUT_BITMAP_9_BY_15);
     drawText(1300, 1850, 0.25, "MIDI OT", GLUT_BITMAP_9_BY_15);
@@ -172,6 +192,12 @@ void dibuja()
     if(!start){
         drawText(-300, 0, 1, "PRESS S", GLUT_BITMAP_9_BY_15);
         drawText(-300, -150, 1, "TO START", GLUT_BITMAP_9_BY_15);
+    }
+    
+    if(oprimidoMidi){
+        if ((int)message[1]-48>=0) {
+            drawText(-100, -250, 1, notaNombre[(int)message[1]-48], GLUT_BITMAP_9_BY_15);
+        }
     }
     
     drawText(-500, -480, 1, toString(tiempo), GLUT_BITMAP_9_BY_15); //time
@@ -194,6 +220,7 @@ void myKey(unsigned char theKey, int mouseX, int mouseY)
             if(!start){
                 start=true;
                 tiempo=60;
+                notaActual=getRanNumber();
             }
             break;
         case 'p':
