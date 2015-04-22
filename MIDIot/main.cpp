@@ -163,7 +163,7 @@ void myTimer(int v)
         help=false;
     }
     
-    std::cout<<puntosMenos/2<<std::endl;
+    //std::cout<<puntosMenos/2<<std::endl;
 
     if ( (!done) && midiConnected ) {
         stamp = midiin->getMessage( &message );
@@ -260,10 +260,24 @@ void dibuja()
         glColor3f(1, 1, 1);
         glRectd(-an, -an, an, -200);
     }
-
+    
+    int sharps=0;
     if (entrar && !endGame){
         if(start && help){
             drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
+            for (int i=0; i<25; i++) {
+                glPushMatrix();
+                glTranslatef(-350+50*(i-sharps), notaCordenada[i]-6, 0);
+                if(notaNombre[i].find("#")==-1){
+                    glColor3f(1, 0, 0);
+                    drawText(0, 0, .15, notaNombre[i], GLUT_BITMAP_9_BY_15);
+                }else{
+                    sharps++;
+                }
+                glPopMatrix();
+            }
+            
+            
         }
         glPushMatrix();
         glTranslatef(posXNotes, notaCordenada[notaOprimidaActual], 0);
