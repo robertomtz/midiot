@@ -88,7 +88,7 @@ void myTimer(int v)
     if(start){
         tiempo-=.01;
     }
-    if (tiempo==0){
+    if (tiempo<=0.01){
         start=false;
     }
 
