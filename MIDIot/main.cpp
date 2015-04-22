@@ -132,7 +132,7 @@ void myTimer(int v)
     if(start && !pausa){
         tiempo-=0.01;
     }
-    if (tiempo<.01){
+    if (tiempo<=0.01){
         start=false;
     }
 
@@ -205,7 +205,16 @@ void drawText(float x, float y, float size, std::string text, void* font) {
     }
 }
 void playSound(){
-    std::string path = "/Users/robertomtz/Desktop/Graficas/MIDIot/MIDIot/piano/";
+    #ifdef DEBUG
+        #ifdef ROBI
+            std::string path = "/Users/robertomtz/Desktop/Graficas/MIDIot/MIDIot/piano/";
+        #else
+            std::string path = "/Users/Adrian/Copy/ITC/8to-Semestre/Graficas/midiot/MIDIot/piano/";
+        #endif
+    #else
+        std::string path = "piano/";
+    #endif
+
     std::string cmd;
     cmd = "afplay -q 1 " + path + notaNombre[notaOprimidaActual] + ".wav & exit";
     system(cmd.c_str());
@@ -245,15 +254,15 @@ void dibuja()
 //        glPopMatrix();
 //    }
     
-        if (start){
-    glPushMatrix();
-    glTranslatef(posXNotes, notaCordenada[notaActual], 0);
-    if(notaNombre[notaActual].find("#")!=-1){
-        drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
-    }
-    glutSolidSphere(12,12, 12);
-    glPopMatrix();
+    if(start){
+        glPushMatrix();
+        glTranslatef(posXNotes, notaCordenada[notaActual], 0);
+        if(notaNombre[notaActual].find("#")!=-1){
+            drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
         }
+        glutSolidSphere(12,12, 12);
+        glPopMatrix();
+    }
 
     drawText(-2000, 1850, 0.25, portName, GLUT_BITMAP_9_BY_15);
     drawText(1300, 1850, 0.25, "MIDI OT", GLUT_BITMAP_9_BY_15);

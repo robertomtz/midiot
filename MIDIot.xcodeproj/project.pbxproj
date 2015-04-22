@@ -16,22 +16,24 @@
 		32D65CEC1AE671B800E615F6 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 32D65CEB1AE671B800E615F6 /* libc++.dylib */; };
 		32D65CEF1AE6CC6E00E615F6 /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32D65CED1AE6CC6E00E615F6 /* RtMidi.cpp */; };
 		3A25E9E31AE73809008EF785 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25E9E21AE73809008EF785 /* OpenAL.framework */; };
+		3A37D1591AE77A45009410C8 /* piano in Copy Files */ = {isa = PBXBuildFile; fileRef = 3A25E9B81AE72FD8008EF785 /* piano */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		32C3B8051AD3942E00E97EF2 /* CopyFiles */ = {
+		32C3B8051AD3942E00E97EF2 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1;
+			buildActionMask = 8;
+			dstPath = /;
 			dstSubfolderSpec = 0;
 			files = (
+				3A37D1591AE77A45009410C8 /* piano in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		32C019DE1AE74B0100511E15 /* imageLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imageLoader.h; sourceTree = "<group>"; };
 		32C3B8071AD3942E00E97EF2 /* MIDIot */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MIDIot; sourceTree = BUILT_PRODUCTS_DIR; };
 		32C3B80A1AD3942E00E97EF2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		32C3B8111AD3971600E97EF2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
@@ -92,7 +94,6 @@
 			children = (
 				32C3B80A1AD3942E00E97EF2 /* main.cpp */,
 				32D65CED1AE6CC6E00E615F6 /* RtMidi.cpp */,
-				32C019DE1AE74B0100511E15 /* imageLoader.h */,
 				32D65CEE1AE6CC6E00E615F6 /* RtMidi.h */,
 				3A25E9B81AE72FD8008EF785 /* piano */,
 			);
@@ -108,7 +109,7 @@
 			buildPhases = (
 				32C3B8031AD3942E00E97EF2 /* Sources */,
 				32C3B8041AD3942E00E97EF2 /* Frameworks */,
-				32C3B8051AD3942E00E97EF2 /* CopyFiles */,
+				32C3B8051AD3942E00E97EF2 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -246,8 +247,13 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = __MACOSX_CORE__;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					__MACOSX_CORE__,
+					"ROBI=1",
+					"DEBUG=1",
+				);
 				GCC_VERSION = "";
+				INSTALL_PATH = /;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
@@ -268,6 +274,7 @@
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = __MACOSX_CORE__;
 				GCC_VERSION = "";
+				INSTALL_PATH = /;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
