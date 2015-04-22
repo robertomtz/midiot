@@ -56,7 +56,6 @@ void createRtMidiIn(){
             portName = midiin->getPortName(i);
         }
         catch ( RtMidiError &error ) {
-            portName = error.getMessage();
             error.printMessage();
         }
         std::cout << "  Input Port #" << i+1 << ": " << portName << '\n';
@@ -72,7 +71,7 @@ void createRtMidiIn(){
         // Periodically check input queue.
         std::cout << "Reading MIDI from port ...";
     } else {
-        std::cout << "No MIDI device connected";
+        portName = "No MIDI device connected";
     }
 }
 
@@ -164,7 +163,8 @@ void dibuja()
         glPopMatrix();
     }
 
-    drawText(4000, 4800, .1, "MIDI OT", GLUT_BITMAP_9_BY_15);
+    drawText(-2000, 1850, 0.25, portName, GLUT_BITMAP_9_BY_15);
+    drawText(1300, 1850, 0.25, "MIDI OT", GLUT_BITMAP_9_BY_15);
     
     if(!start){
         drawText(-300, 0, 1, "PRESS S", GLUT_BITMAP_9_BY_15);
