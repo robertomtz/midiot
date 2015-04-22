@@ -30,9 +30,10 @@ bool notePressed=false;
 int score=0;
 double tiempo=60;
 int an=640,al=480;
-int posXNotes=-500;
+int posXNotes=-450;
 bool start=false;
 int notaActual=0;
+int notaOprimidaActual=-1;
 
 int getRanNumber() {
     return rand() % 24;
@@ -93,14 +94,22 @@ void myTimer(int v)
         for ( int i=0; i<nBytes; i++ )
             std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
         if ( nBytes > 0 ){
+            notaOprimidaActual=(int)message[1]-48;
             std::cout << "stamp = " << stamp << std::endl;
-            oprimidoMidi=true;
-            notePressed=!notePressed;
-            if(notePressed){
-                notaActual=getRanNumber();
-                posXNotes+=50;
-                if (posXNotes==500) {
-                    posXNotes=-450;
+            if(start){
+                oprimidoMidi=true;
+                notePressed=!notePressed;
+                if(notePressed){
+                    posXNotes+=50;
+                    if(notaOprimidaActual==notaActual){
+                        score+=5000;
+                    } else{
+                        score-=4000;
+                    }
+                    if (posXNotes==500) {
+                        posXNotes=-450;
+                    }
+                    notaActual=getRanNumber();
                 }
             }
         }
@@ -178,6 +187,7 @@ void dibuja()
 //        glPopMatrix();
 //    }
     
+    if(start){
     glPushMatrix();
     glTranslatef(posXNotes, notaCordenada[notaActual], 0);
     if(notaNombre[notaActual].find("#")!=-1){
@@ -185,6 +195,7 @@ void dibuja()
     }
     glutSolidSphere(12,12, 12);
     glPopMatrix();
+    }
 
     drawText(-2000, 1850, 0.25, portName, GLUT_BITMAP_9_BY_15);
     drawText(1300, 1850, 0.25, "MIDI OT", GLUT_BITMAP_9_BY_15);
@@ -196,7 +207,8 @@ void dibuja()
     
     if(oprimidoMidi){
         if ((int)message[1]-48>=0) {
-            drawText(-100, -250, 1, notaNombre[(int)message[1]-48], GLUT_BITMAP_9_BY_15);
+            drawText(-100, -250, 1, notaNombre[notaOprimidaActual], GLUT_BITMAP_9_BY_15);
+            drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
         }
     }
     
