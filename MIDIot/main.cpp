@@ -41,7 +41,7 @@ int posXNotes=-350;
 bool start=false;
 
 int notaActual=0;
-int notaOprimidaActual=-1;
+int notaOprimidaActual=12;
 bool entraUno= false;
 
 
@@ -225,7 +225,19 @@ void dibuja()
     glColor3f(0.0, 0.0, 0.0);
     
     if (entrar){
+        if(start){
+            drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
+        }
+        glPushMatrix();
+        glTranslatef(posXNotes, notaCordenada[notaOprimidaActual], 0);
+        if(notaNombre[notaOprimidaActual].find("#")!=-1){
+            drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
+        }
+        glColor3f(0.0, 1.0, 0.0);
+        glutSolidSphere(12,12, 12);
+        glPopMatrix();
         
+        glColor3f(0.0, 0.0, 0.0);
         glBindTexture(GL_TEXTURE_2D, texName[1]);
         glRectd(-490, 440, -400, 320);
         glRectd(-490, 265, -400, 145);
@@ -311,6 +323,8 @@ void dibuja()
     }
     
     //rectangulo fondo blanco
+    glColor3f(1, 1, 1);
+    glRectd(-an, 120, an, an);
     glColor3f(1, 1, 1);
     glRectd(-an, -an, an, an);
     
