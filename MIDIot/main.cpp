@@ -161,7 +161,6 @@ void drawText(float x, float y, float size, std::string text, void* font) {
     }
 }
 void playSound(){
-    std::cout << "HOLA" << std::endl;
     std::string path = "/Users/Adrian/Copy/ITC/8to-Semestre/Graficas/midiot/MIDIot/piano/";
     std::string cmd;
     cmd = "afplay -q 1 " + path + notaNombre[notaOprimidaActual] + ".wav & exit";
