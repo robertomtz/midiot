@@ -13,6 +13,7 @@
 #include <time.h>
 #include "RtMidi.h"
 #include "imageLoader.h"
+
 bool done;
 static void finish(int ignore){ done = true; }
 static GLuint texName[5];
@@ -27,17 +28,21 @@ int nBytes;
 double stamp;
 bool midiConnected = false;
 std::string portName;
+
 bool oprimidoMidi=false;
 bool notePressed=false;
 bool pausa=false;
+bool entrar=false;
 
 int score=0;
 double tiempo=60;
 int an=640,al=480;
 int posXNotes=-450;
 bool start=false;
+
 int notaActual=0;
 int notaOprimidaActual=-1;
+bool entraUno= false;
 
 
 
@@ -130,7 +135,7 @@ void myTimer(int v)
     if (tiempo<.01){
         start=false;
     }
-    
+
     if ( (!done) && midiConnected ) {
         stamp = midiin->getMessage( &message );
         nBytes = message.size();
@@ -143,6 +148,7 @@ void myTimer(int v)
                 oprimidoMidi=true;
                 notePressed=!notePressed;
                 if(notePressed){
+                    entraUno=false;
                     posXNotes+=50;
                     if(notaOprimidaActual==notaActual){
                         score+=5000;
@@ -198,17 +204,24 @@ void drawText(float x, float y, float size, std::string text, void* font) {
         x+=75;
     }
 }
-
+void playSound(){
+    std::string path = "/Users/robertomtz/Desktop/Graficas/MIDIot/MIDIot/piano/";
+    std::string cmd;
+    cmd = "afplay -q 1 " + path + notaNombre[notaOprimidaActual] + ".wav & exit";
+    system(cmd.c_str());
+}
 void dibuja()
 {
     //puntos actuales jugador y dealer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    glBindTexture(GL_TEXTURE_2D, texName[1]);
-    glRectd(-470, 440, -380, 300);
-    
     glLineWidth(2);
     glColor3f(0.0, 0.0, 0.0);
+    
+    if (entrar){
+    glBindTexture(GL_TEXTURE_2D, texName[1]);
+    glRectd(-470, 440, -380, 320);
+    glRectd(-470, 265, -380, 145);
+    
     glBegin(GL_LINES);
     for (int i=0; i<10; i++) {
         if(i<5){
@@ -232,7 +245,7 @@ void dibuja()
 //        glPopMatrix();
 //    }
     
-    if(start){
+        if (start){
     glPushMatrix();
     glTranslatef(posXNotes, notaCordenada[notaActual], 0);
     if(notaNombre[notaActual].find("#")!=-1){
@@ -240,26 +253,39 @@ void dibuja()
     }
     glutSolidSphere(12,12, 12);
     glPopMatrix();
-    }
+        }
 
     drawText(-2000, 1850, 0.25, portName, GLUT_BITMAP_9_BY_15);
     drawText(1300, 1850, 0.25, "MIDI OT", GLUT_BITMAP_9_BY_15);
     
-    if(!start){
-        drawText(-300, 0, 1, "PRESS S", GLUT_BITMAP_9_BY_15);
-        drawText(-300, -150, 1, "TO START", GLUT_BITMAP_9_BY_15);
-    }
-    
-    if(oprimidoMidi){
+    if(oprimidoMidi && (!entraUno)){
+        entraUno=true;
         if ((int)message[1]-48>=0) {
             drawText(-100, -250, 1, notaNombre[notaOprimidaActual], GLUT_BITMAP_9_BY_15);
             if(start){
-                drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);}
+                drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
+            }
+            playSound();
+            drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
         }
     }
     
     drawText(-500, -480, 1, toString(tiempo), GLUT_BITMAP_9_BY_15); //time
     drawText(100, -480, 1, toString(score), GLUT_BITMAP_9_BY_15); //score
+    } else{
+        glColor3f(1, 1, 1);
+        glLineWidth(6);
+        drawText(-250, 50, 1.2, "MIDIOT", GLUT_BITMAP_9_BY_15);
+        glLineWidth(4);
+        drawText(-740, -100, .6, "You better C sharp", GLUT_BITMAP_9_BY_15);
+        drawText(-740, -270, .6, "or you will B flat!", GLUT_BITMAP_9_BY_15);
+        
+        glColor3f(0, 0, 0);
+        glLineWidth(4);
+        drawText(-400, -670, .4, "Press ENTER to Start", GLUT_BITMAP_9_BY_15);
+        glColor3f(0, 0, 0);
+        glRectd(-an, -an/3, an, an/3);
+    }
     
 //    rectangulo fondo blanco
     glColor3f(1, 1, 1);
@@ -294,6 +320,10 @@ void myKey(unsigned char theKey, int mouseX, int mouseY)
             //terminate the program
             break;
             
+        case 13:
+            entrar=true;
+            break;
+            
         default:
             break;		      // do nothing
     }
@@ -319,7 +349,6 @@ int main(int argc, char *argv[])
     srand (time(NULL));
     createRtMidiIn();
 
-    
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
