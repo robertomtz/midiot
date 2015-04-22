@@ -247,39 +247,6 @@ void dibuja()
         glColor3f(0.0, 1.0, 0.0);
         glutSolidSphere(12,12, 12);
         glPopMatrix();
-        
-        glColor3f(1.0, 1.0, 1.0);
-        glBindTexture(GL_TEXTURE_2D, texName[0]);
-        glBegin(GL_QUADS);
-
-        glTexCoord2f(0.0f, 1.0f);
-        glVertex3f(-470.0f, 440, 0);
-
-        glTexCoord2f(0.0f, 0.0f);
-        glVertex3f(-470.0f, 320.0f, 0);
-
-        glTexCoord2f(1.0f, 0.0f);
-        glVertex3f(-380.0f, 320.0f, 0);
-
-        glTexCoord2f(1.0f, 1.0f);
-        glVertex3f(-380.0f, 440.0f, 0);
-        glEnd();
-
-        glBindTexture(GL_TEXTURE_2D, texName[1]);
-        glBegin(GL_QUADS);
-
-        glTexCoord2f(0.0f, 1.0f);
-        glVertex3f(-470.0f, 265, 0);
-
-        glTexCoord2f(0.0f, 0.0f);
-        glVertex3f(-470.0f, 145.0f, 0);
-
-        glTexCoord2f(1.0f, 0.0f);
-        glVertex3f(-380.0f, 145.0f, 0);
-
-        glTexCoord2f(1.0f, 1.0f);
-        glVertex3f(-380.0f, 265.0f, 0);
-        glEnd();
 
 
         glColor3f(0.0, 0.0, 0.0);
@@ -312,6 +279,42 @@ void dibuja()
             }
         }
         glEnd();
+        
+        
+        glColor3f(1.0, 1.0, 1.0);
+        glBindTexture(GL_TEXTURE_2D, texName[0]);
+        glBegin(GL_QUADS);
+        
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex3f(-470.0f, 440, 0);
+        
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(-470.0f, 320.0f, 0);
+        
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex3f(-380.0f, 320.0f, 0);
+        
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex3f(-380.0f, 440.0f, 0);
+        glEnd();
+        
+        glBindTexture(GL_TEXTURE_2D, texName[1]);
+        glBegin(GL_QUADS);
+        
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex3f(-470.0f, 265, 0);
+        
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(-470.0f, 145.0f, 0);
+        
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex3f(-380.0f, 145.0f, 0);
+        
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex3f(-380.0f, 265.0f, 0);
+        glEnd();
+        glColor3f(0.0, 0.0, 0.0);
+        
     
         //Dibuja todas las notas
     //    for (int i=0; i<25; i++) {
