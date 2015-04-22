@@ -45,6 +45,7 @@ int notaOprimidaActual=12;
 bool entraUno= false;
 int puntosMenos=0;
 bool help=false;
+bool endGame=false;
 
 
 
@@ -152,6 +153,7 @@ void myTimer(int v)
     }
     if (tiempo<=0.01){
         start=false;
+        endGame=true;
     }
 
     if ( (!done) && midiConnected ) {
@@ -239,6 +241,13 @@ void dibuja()
 
     glLineWidth(2);
     glColor3f(0.0, 0.0, 0.0);
+    
+    if(endGame){
+        drawText(-1650, 900, .3, "Good Job! Your Final Score is: " +toString(score), GLUT_BITMAP_9_BY_15);
+        drawText(-1650, 750, .3, "Press S to start again!", GLUT_BITMAP_9_BY_15);
+        glColor3f(1, 1, 1);
+        glRectd(-an, 120, an, an);
+    }
 
     if (entrar){
         if(start && help){
@@ -320,17 +329,6 @@ void dibuja()
         glEnd();
         glColor3f(0.0, 0.0, 0.0);
         
-    
-        //Dibuja todas las notas
-    //    for (int i=0; i<25; i++) {
-    //        glPushMatrix();
-    //        glTranslatef(posXNotes+40*i, notaCordenada[i], 0);
-    //        if(notaNombre[i].find("#")!=-1){
-    //            drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
-    //        }
-    //        glutSolidSphere(12,12, 12);
-    //        glPopMatrix();
-    //    }
         if(start){
             glPushMatrix();
             glTranslatef(posXNotes, notaCordenada[notaActual], 0);
@@ -360,6 +358,15 @@ void dibuja()
         drawText(-1000, -950, .5, toString(tiempo), GLUT_BITMAP_9_BY_15); //time
         drawText(-1250, -1000, .4, "press h for help (-50pts)", GLUT_BITMAP_9_BY_15);
         drawText(500, -950, .5, toString(score), GLUT_BITMAP_9_BY_15); //score
+        
+        //rectangulo fondo blanco de hoja
+        glColor3f(1, 1, 1);
+        glRectd(-an, 120, an, an);
+        
+        //    rectangulo fondo rojo
+        glColor3f(0.53, 0.17, 0.18);
+        glRectd(-an, -an, an, an);
+        
     } else{
         glColor3f(1, 1, 1);
         glLineWidth(6);
@@ -374,14 +381,6 @@ void dibuja()
         glColor3f(0, 0, 0);
         glRectd(-an, -an/3, an, an/3);
     }
-    
-    //rectangulo fondo blanco de hoja
-    glColor3f(1, 1, 1);
-    glRectd(-an, 120, an, an);
-    
-    //    rectangulo fondo rojo
-    glColor3f(0.53, 0.17, 0.18);
-    glRectd(-an, -an, an, an);
     
     glutSwapBuffers();
 }
@@ -400,6 +399,7 @@ void myKey(unsigned char theKey, int mouseX, int mouseY)
                     notaActual=getRanNumber();
                     pausa=false;
                     help=false;
+                    endGame=false;
                 }
             }
             break;
