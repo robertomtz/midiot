@@ -15,6 +15,7 @@
 		32D65CE61AE6691900E615F6 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32D65CE51AE6691900E615F6 /* CoreMIDI.framework */; };
 		32D65CEC1AE671B800E615F6 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 32D65CEB1AE671B800E615F6 /* libc++.dylib */; };
 		32D65CEF1AE6CC6E00E615F6 /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32D65CED1AE6CC6E00E615F6 /* RtMidi.cpp */; };
+		3A25E9E31AE73809008EF785 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25E9E21AE73809008EF785 /* OpenAL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +41,8 @@
 		32D65CEB1AE671B800E615F6 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		32D65CED1AE6CC6E00E615F6 /* RtMidi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtMidi.cpp; sourceTree = "<group>"; };
 		32D65CEE1AE6CC6E00E615F6 /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtMidi.h; sourceTree = "<group>"; };
+		3A25E9B81AE72FD8008EF785 /* piano */ = {isa = PBXFileReference; lastKnownFileType = folder; path = piano; sourceTree = "<group>"; };
+		3A25E9E21AE73809008EF785 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A25E9E31AE73809008EF785 /* OpenAL.framework in Frameworks */,
 				32D65CEC1AE671B800E615F6 /* libc++.dylib in Frameworks */,
 				32D65CE61AE6691900E615F6 /* CoreMIDI.framework in Frameworks */,
 				32D65CE41AE668AD00E615F6 /* CoreFoundation.framework in Frameworks */,
@@ -62,6 +66,7 @@
 		32C3B7FE1AD3942E00E97EF2 = {
 			isa = PBXGroup;
 			children = (
+				3A25E9E21AE73809008EF785 /* OpenAL.framework */,
 				32D65CEB1AE671B800E615F6 /* libc++.dylib */,
 				32D65CE51AE6691900E615F6 /* CoreMIDI.framework */,
 				32D65CE31AE668AD00E615F6 /* CoreFoundation.framework */,
@@ -87,6 +92,7 @@
 				32C3B80A1AD3942E00E97EF2 /* main.cpp */,
 				32D65CED1AE6CC6E00E615F6 /* RtMidi.cpp */,
 				32D65CEE1AE6CC6E00E615F6 /* RtMidi.h */,
+				3A25E9B81AE72FD8008EF785 /* piano */,
 			);
 			path = MIDIot;
 			sourceTree = "<group>";
@@ -232,13 +238,18 @@
 		32C3B80F1AD3942E00E97EF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = __MACOSX_CORE__;
 				GCC_VERSION = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
+					"$(PROJECT_DIR)/sfmllib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -247,13 +258,18 @@
 		32C3B8101AD3942E00E97EF2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = __MACOSX_CORE__;
 				GCC_VERSION = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
+					"$(PROJECT_DIR)/sfmllib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

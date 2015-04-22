@@ -12,6 +12,7 @@
 #include <signal.h>
 #include <time.h>
 #include "RtMidi.h"
+
 bool done;
 static void finish(int ignore){ done = true; }
 
@@ -24,6 +25,7 @@ int nBytes;
 double stamp;
 bool midiConnected = false;
 std::string portName;
+
 bool oprimidoMidi=false;
 bool notePressed=false;
 
@@ -32,8 +34,10 @@ double tiempo=60;
 int an=640,al=480;
 int posXNotes=-450;
 bool start=false;
+
 int notaActual=0;
 int notaOprimidaActual=-1;
+bool entraUno= false;
 
 int getRanNumber() {
     return rand() % 24;
@@ -87,7 +91,7 @@ void myTimer(int v)
     if (tiempo==0){
         start=false;
     }
-    
+
     if ( (!done) && midiConnected ) {
         stamp = midiin->getMessage( &message );
         nBytes = message.size();
@@ -100,6 +104,7 @@ void myTimer(int v)
                 oprimidoMidi=true;
                 notePressed=!notePressed;
                 if(notePressed){
+                    entraUno=false;
                     posXNotes+=50;
                     if(notaOprimidaActual==notaActual){
                         score+=5000;
@@ -155,7 +160,13 @@ void drawText(float x, float y, float size, std::string text, void* font) {
         x+=75;
     }
 }
-
+void playSound(){
+    std::cout << "HOLA" << std::endl;
+    std::string path = "/Users/Adrian/Copy/ITC/8to-Semestre/Graficas/midiot/MIDIot/piano/";
+    std::string cmd;
+    cmd = "afplay -q 1 " + path + notaNombre[notaOprimidaActual] + ".wav & exit";
+    system(cmd.c_str());
+}
 void dibuja()
 {
     //puntos actuales jugador y dealer
@@ -205,9 +216,11 @@ void dibuja()
         drawText(-300, -150, 1, "TO START", GLUT_BITMAP_9_BY_15);
     }
     
-    if(oprimidoMidi){
+    if(oprimidoMidi && (!entraUno)){
+        entraUno=true;
         if ((int)message[1]-48>=0) {
             drawText(-100, -250, 1, notaNombre[notaOprimidaActual], GLUT_BITMAP_9_BY_15);
+            playSound();
             drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
         }
     }
@@ -268,7 +281,6 @@ int main(int argc, char *argv[])
     srand (time(NULL));
     createRtMidiIn();
 
-    
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
