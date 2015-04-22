@@ -23,6 +23,7 @@ std::vector<unsigned char> message;
 int nBytes;
 double stamp;
 bool midiConnected = false;
+std::string portName;
 
 int score=0;
 double tiempo=60;
@@ -32,6 +33,47 @@ bool start=false;
 
 int getRanNumber() {
     return rand() % 14;
+}
+
+void createRtMidiIn(){
+    // RtMidiIn constructor
+    try {
+        midiin = new RtMidiIn();
+    }
+    catch ( RtMidiError &error ) {
+        error.printMessage();
+        exit( EXIT_FAILURE );
+    }
+    // Check inputs.
+    unsigned int nPorts = midiin->getPortCount();
+    std::cout << "\nThere are " << nPorts << " MIDI input sources available.\n";
+    if (nPorts > 0) {
+        midiConnected = true;
+    }
+
+    for ( unsigned int i=0; i<nPorts; i++ ) {
+        try {
+            portName = midiin->getPortName(i);
+        }
+        catch ( RtMidiError &error ) {
+            portName = error.getMessage();
+            error.printMessage();
+        }
+        std::cout << "  Input Port #" << i+1 << ": " << portName << '\n';
+    }
+
+    if (midiConnected) {
+        midiin->openPort( 0 );
+        // Don't ignore sysex, timing, or active sensing messages.
+        midiin->ignoreTypes( false, false, false );
+        // Install an interrupt handler function.
+        done = false;
+        (void) signal(SIGINT, finish);
+        // Periodically check input queue.
+        std::cout << "Reading MIDI from port ...";
+    } else {
+        std::cout << "No MIDI device connected";
+    }
 }
 
 void myTimer(int v)
@@ -51,6 +93,8 @@ void myTimer(int v)
         if ( nBytes > 0 )
             std::cout << "stamp = " << stamp << std::endl;
         // Sleep for 10 milliseconds ... platform-dependent.
+    }else {
+        createRtMidiIn();
     }
     
     glutPostRedisplay();
@@ -127,8 +171,8 @@ void dibuja()
         drawText(-300, -150, 1, "TO START", GLUT_BITMAP_9_BY_15);
     }
     
-    drawText(-500, -480, 1, toString(tiempo), GLUT_BITMAP_9_BY_15);//time
-    drawText(100, -480, 1, toString(score), GLUT_BITMAP_9_BY_15);//score
+    drawText(-500, -480, 1, toString(tiempo), GLUT_BITMAP_9_BY_15); //time
+    drawText(100, -480, 1, toString(score), GLUT_BITMAP_9_BY_15); //score
     
 //    rectangulo fondo blanco
     glColor3f(1, 1, 1);
@@ -180,43 +224,7 @@ void reshape(int ancho, int alto)
 int main(int argc, char *argv[])
 {
     srand (time(NULL));
-    // RtMidiIn constructor
-    try {
-        midiin = new RtMidiIn();
-    }
-    catch ( RtMidiError &error ) {
-        error.printMessage();
-        exit( EXIT_FAILURE );
-    }
-    // Check inputs.
-    unsigned int nPorts = midiin->getPortCount();
-    std::cout << "\nThere are " << nPorts << " MIDI input sources available.\n";
-    if (nPorts > 0) {
-        midiConnected = true;
-    }
-    std::string portName;
-    for ( unsigned int i=0; i<nPorts; i++ ) {
-        try {
-            portName = midiin->getPortName(i);
-        }
-        catch ( RtMidiError &error ) {
-            error.printMessage();
-        }
-        std::cout << "  Input Port #" << i+1 << ": " << portName << '\n';
-    }
-
-    if (midiConnected) {
-        midiin->openPort( 0 );
-        // Don't ignore sysex, timing, or active sensing messages.
-        midiin->ignoreTypes( false, false, false );
-        // Install an interrupt handler function.
-        done = false;
-        (void) signal(SIGINT, finish);
-        // Periodically check input queue.
-        std::cout << "Reading MIDI from port ...";
-    } else {
-        std::cout << "No MIDI device connected";
-    }
+    createRtMidiIn();
 
     
     glutInit(&argc, argv);
