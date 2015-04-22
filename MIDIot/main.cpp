@@ -203,13 +203,13 @@ void dibuja()
 //    }
     
     if(start){
-    glPushMatrix();
-    glTranslatef(posXNotes, notaCordenada[notaActual], 0);
-    if(notaNombre[notaActual].find("#")!=-1){
-        drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
-    }
-    glutSolidSphere(12,12, 12);
-    glPopMatrix();
+        glPushMatrix();
+        glTranslatef(posXNotes, notaCordenada[notaActual], 0);
+        if(notaNombre[notaActual].find("#")!=-1){
+            drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
+        }
+        glutSolidSphere(12,12, 12);
+        glPopMatrix();
     }
 
     drawText(-2000, 1850, 0.25, portName, GLUT_BITMAP_9_BY_15);
