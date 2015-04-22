@@ -37,7 +37,7 @@ bool entrar=false;
 int score=0;
 double tiempo=60;
 int an=640,al=480;
-int posXNotes=-450;
+int posXNotes=-350;
 bool start=false;
 
 int notaActual=0;
@@ -136,7 +136,6 @@ void createRtMidiIn(){
 
 void myTimer(int v)
 {
-    
     if(start && !pausa){
         tiempo-=0.01;
     }
@@ -164,7 +163,7 @@ void myTimer(int v)
                         score-=4000;
                     }
                     if (posXNotes==500) {
-                        posXNotes=-450;
+                        posXNotes=-350;
                     }
                     notaActual=getRanNumber();
                 }
@@ -229,7 +228,6 @@ void dibuja()
     glColor3f(0.0, 0.0, 0.0);
 
     if (entrar){
-
         glColor3f(1.0, 1.0, 1.0);
         glBindTexture(GL_TEXTURE_2D, texName[0]);
         glBegin(GL_QUADS);
@@ -265,8 +263,23 @@ void dibuja()
 
 
         glColor3f(0.0, 0.0, 0.0);
-//        glRectd(-470, 440, -380, 320);
-//        glRectd(-470, 265, -380, 145);
+//       glRectd(-470, 440, -380, 320);
+//       glRectd(-470, 265, -380, 145);
+
+        if(!start){
+            glColor3f(1.0, 1.0, 1.0);
+            drawText(-1650, 250, .3, "Hi superstar! In this game we will show you", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, 0, .3, "how to read music from a music sheet.", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, -250, .3, "For this, you will only need your", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, -500, .3, "MIDI keyboard!", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, -750, .3, "Press S when you are ready to start!", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, -1000, .3, "Hit the notes as fast you can.", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, -1250, .3, "Good luck & stay fingalikin' little chicken!", GLUT_BITMAP_9_BY_15);
+
+            glColor3f(0.0, 0.0, 0.0);
+            glRectd(-an, -an, an, 120);
+        }
+
 
         glBegin(GL_LINES);
         for (int i=0; i<10; i++) {
@@ -290,7 +303,6 @@ void dibuja()
     //        glutSolidSphere(12,12, 12);
     //        glPopMatrix();
     //    }
-        
         if(start){
             glPushMatrix();
             glTranslatef(posXNotes, notaCordenada[notaActual], 0);
@@ -303,7 +315,7 @@ void dibuja()
 
         drawText(-2000, 1850, 0.25, portName, GLUT_BITMAP_9_BY_15);
         drawText(1300, 1850, 0.25, "MIDI OT", GLUT_BITMAP_9_BY_15);
-        
+
         if(oprimidoMidi && (!entraUno)){
             entraUno=true;
             if ((int)message[1]-48>=0) {
@@ -315,7 +327,7 @@ void dibuja()
                 drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
             }
         }
-        
+
         drawText(-500, -480, 1, toString(tiempo), GLUT_BITMAP_9_BY_15); //time
         drawText(100, -480, 1, toString(score), GLUT_BITMAP_9_BY_15); //score
     } else{
@@ -332,11 +344,10 @@ void dibuja()
         glColor3f(0, 0, 0);
         glRectd(-an, -an/3, an, an/3);
     }
-    
-//    rectangulo fondo blanco
+
+//    rectangulo fondo rojo
     glColor3f(0.53, 0.17, 0.18);
     glRectd(-an, -an, an, an);
-    
     
     glutSwapBuffers();
 }
