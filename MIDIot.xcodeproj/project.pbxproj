@@ -17,6 +17,7 @@
 		32D65CEF1AE6CC6E00E615F6 /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32D65CED1AE6CC6E00E615F6 /* RtMidi.cpp */; };
 		3A25E9E31AE73809008EF785 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25E9E21AE73809008EF785 /* OpenAL.framework */; };
 		3A37D1591AE77A45009410C8 /* piano in Copy Files */ = {isa = PBXBuildFile; fileRef = 3A25E9B81AE72FD8008EF785 /* piano */; };
+		3A44FEAE1AE786560075FEC2 /* imageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A44FEAD1AE786560075FEC2 /* imageLoader.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +47,10 @@
 		32D65CEE1AE6CC6E00E615F6 /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtMidi.h; sourceTree = "<group>"; };
 		3A25E9B81AE72FD8008EF785 /* piano */ = {isa = PBXFileReference; lastKnownFileType = folder; path = piano; sourceTree = "<group>"; };
 		3A25E9E21AE73809008EF785 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		3A44FEAB1AE784AE0075FEC2 /* sol.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = sol.bmp; sourceTree = "<group>"; };
+		3A44FEAC1AE786420075FEC2 /* imageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageLoader.h; sourceTree = "<group>"; };
+		3A44FEAD1AE786560075FEC2 /* imageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imageLoader.cpp; sourceTree = "<group>"; };
+		3A44FEB11AE793DA0075FEC2 /* fa.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = fa.bmp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,7 +99,11 @@
 			children = (
 				32C3B80A1AD3942E00E97EF2 /* main.cpp */,
 				32D65CED1AE6CC6E00E615F6 /* RtMidi.cpp */,
+				3A44FEAB1AE784AE0075FEC2 /* sol.bmp */,
+				3A44FEB11AE793DA0075FEC2 /* fa.bmp */,
 				32D65CEE1AE6CC6E00E615F6 /* RtMidi.h */,
+				3A44FEAC1AE786420075FEC2 /* imageLoader.h */,
+				3A44FEAD1AE786560075FEC2 /* imageLoader.cpp */,
 				3A25E9B81AE72FD8008EF785 /* piano */,
 			);
 			path = MIDIot;
@@ -158,6 +167,7 @@
 			files = (
 				32D65CEF1AE6CC6E00E615F6 /* RtMidi.cpp in Sources */,
 				32C3B80B1AD3942E00E97EF2 /* main.cpp in Sources */,
+				3A44FEAE1AE786560075FEC2 /* imageLoader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
