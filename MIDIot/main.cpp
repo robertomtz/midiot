@@ -392,12 +392,14 @@ void myKey(unsigned char theKey, int mouseX, int mouseY)
         case 's':
         case 'S':
             if(!start){
-                start=true;
-                tiempo=30;
-                score=1000;
-                notaActual=getRanNumber();
-                pausa=false;
-                help=false;
+                if(entrar){
+                    start=true;
+                    tiempo=30;
+                    score=1000;
+                    notaActual=getRanNumber();
+                    pausa=false;
+                    help=false;
+                }
             }
             break;
         case 'p':
