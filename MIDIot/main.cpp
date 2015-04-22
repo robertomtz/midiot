@@ -358,6 +358,7 @@ void dibuja()
 
         glLineWidth(4);
         drawText(-1000, -950, .5, toString(tiempo), GLUT_BITMAP_9_BY_15); //time
+        drawText(-1250, -1000, .4, "press h for help (-50pts)", GLUT_BITMAP_9_BY_15);
         drawText(500, -950, .5, toString(score), GLUT_BITMAP_9_BY_15); //score
     } else{
         glColor3f(1, 1, 1);
