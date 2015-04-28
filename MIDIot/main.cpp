@@ -167,13 +167,12 @@ void myTimer(int v)
     //std::cout<<puntosMenos/2<<std::endl;
 
     if ( (!done) && midiConnected ) {
-        stamp = midiin->getMessage( &message );
+        midiin->getMessage( &message );
         nBytes = message.size();
         for ( int i=0; i<nBytes; i++ )
             std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
         if ( nBytes > 0 ){
             notaOprimidaActual=(int)message[1]-48;
-            std::cout << "stamp = " << stamp << std::endl;
             if(start && !pausa){
                 oprimidoMidi=true;
                 notePressed=!notePressed;
