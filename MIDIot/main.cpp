@@ -12,6 +12,7 @@
 #include <signal.h>
 #include <time.h>
 #include "RtMidi.h"
+#include "glm.h"
 #include "imageLoader.h"
 
 bool done;
@@ -47,7 +48,33 @@ int puntosMenos=0;
 bool help=false;
 bool endGame=false;
 
+GLMmodel* pmodel1;
 
+void drawmodel_box(void){
+    // Load the model only if it hasn't been loaded before
+    // If it's been loaded then pmodel1 should be a pointer to the model geometry data...otherwise it's null
+    if (!pmodel1)
+    {
+        // this is the call that actualy reads the OBJ and creates the model object
+        pmodel1 = glmReadOBJ("/Users/Adrian/Copy/ITC/8to-Semestre/Graficas/midiot/MIDIot/cosa.obj");
+
+        if (!pmodel1) exit(0);
+        // This will rescale the object to fit into the unity matrix
+        // Depending on your project you might want to keep the original size and positions you had in 3DS Max or GMAX so you may have to comment this.
+        glmUnitize(pmodel1);
+        // These 2 functions calculate triangle and vertex normals from the geometry data.
+        // To be honest I had some problem with very complex models that didn't look to good because of how vertex normals were calculated
+        // So if you can export these directly from you modeling tool do it and comment these line
+        // 3DS Max can calculate these for you and GLM is perfectly capable of loading them
+        glmFacetNormals(pmodel1);
+        glmVertexNormals(pmodel1, 90.0, GL_TRUE);
+
+    }
+    // This is the call that will actualy draw the model
+    // Don't forget to tell it if you want textures or not :))
+    glmDraw(pmodel1, GLM_SMOOTH );
+
+}
 
 void loadTexture(Image* image,int k)
 {
@@ -393,20 +420,24 @@ void dibuja()
         glRectd(-an, -an, an, an);
         
     } else{
-        glColor3f(1, 1, 1);
-        glLineWidth(6);
-        drawText(-250, 50, 1.2, "MIDIOT", GLUT_BITMAP_9_BY_15);
-        glLineWidth(4);
-        drawText(-740, -100, .6, "You better C sharp", GLUT_BITMAP_9_BY_15);
-        drawText(-740, -270, .6, "or you will B flat!", GLUT_BITMAP_9_BY_15);
-        
-        glColor3f(0, 0, 0);
-        glLineWidth(4);
-        drawText(-400, -670, .4, "Press ENTER to Start", GLUT_BITMAP_9_BY_15);
-        glColor3f(0, 0, 0);
-        glRectd(-an, -an/3, an, an/3);
+//        glColor3f(1, 1, 1);
+//        glLineWidth(6);
+//        drawText(-250, 50, 1.2, "MIDIOT", GLUT_BITMAP_9_BY_15);
+//        glLineWidth(4);
+//        drawText(-740, -100, .6, "You better C sharp", GLUT_BITMAP_9_BY_15);
+//        drawText(-740, -270, .6, "or you will B flat!", GLUT_BITMAP_9_BY_15);
+//        
+//        glColor3f(0, 0, 0);
+//        glLineWidth(4);
+//        drawText(-400, -670, .4, "Press ENTER to Start", GLUT_BITMAP_9_BY_15);
+//        glColor3f(0, 0, 0);
+//        glRectd(-an, -an/3, an, an/3);
+
+        drawmodel_box();
+
+
     }
-    
+
     glutSwapBuffers();
 }
 
@@ -463,10 +494,12 @@ void reshape(int ancho, int alto)
     // Sistema de coordenadas
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-500, 500, -500, 500,100, 300.0 ); //izq, der, abajo, arriba, cerca, lejos
+//    glOrtho(-500, 500, -500, 500,100, 300.0 ); //izq, der, abajo, arriba, cerca, lejos
+    gluPerspective(45.0, (float)ancho / (float)alto, 1.0, 200.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0, 0, 200, 0, 0, 0, 0, 1, 0);
+    glTranslatef(0.0f, 1.0f, -6.0f);
+//    gluLookAt(0, 0, 200, 0, 0, 0, 0, 1, 0);
 }
 
 int main(int argc, char *argv[])
@@ -478,10 +511,12 @@ int main(int argc, char *argv[])
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH| GLUT_DOUBLE );
+
     glutCreateWindow("MIDIot A01190757 - A01190871");
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_DEPTH_TEST);
     initRendering();
     glClearColor(1.0,1.0,1.0,1.0);
-//    glEnable(GL_DEPTH_TEST);
     glutKeyboardFunc(myKey);
     glutDisplayFunc(dibuja);
     glutTimerFunc(10, myTimer, 1);

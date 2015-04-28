@@ -18,6 +18,14 @@
 		3A25E9E31AE73809008EF785 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25E9E21AE73809008EF785 /* OpenAL.framework */; };
 		3A37D1591AE77A45009410C8 /* piano in Copy Files */ = {isa = PBXBuildFile; fileRef = 3A25E9B81AE72FD8008EF785 /* piano */; };
 		3A44FEAE1AE786560075FEC2 /* imageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A44FEAD1AE786560075FEC2 /* imageLoader.cpp */; };
+		3A8C43291AE8119D0061CC92 /* glm_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C431F1AE8119D0061CC92 /* glm_util.c */; };
+		3A8C432A1AE8119D0061CC92 /* glm.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C43201AE8119D0061CC92 /* glm.c */; };
+		3A8C432B1AE8119D0061CC92 /* glmimg_devil.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C43221AE8119D0061CC92 /* glmimg_devil.c */; };
+		3A8C432C1AE8119D0061CC92 /* glmimg_jpg.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C43231AE8119D0061CC92 /* glmimg_jpg.c */; };
+		3A8C432D1AE8119D0061CC92 /* glmimg_png.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C43241AE8119D0061CC92 /* glmimg_png.c */; };
+		3A8C432E1AE8119D0061CC92 /* glmimg_sdl.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C43251AE8119D0061CC92 /* glmimg_sdl.c */; };
+		3A8C432F1AE8119D0061CC92 /* glmimg_sim.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C43261AE8119D0061CC92 /* glmimg_sim.c */; };
+		3A8C43301AE8119D0061CC92 /* glmimg.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C43271AE8119D0061CC92 /* glmimg.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +59,20 @@
 		3A44FEAC1AE786420075FEC2 /* imageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageLoader.h; sourceTree = "<group>"; };
 		3A44FEAD1AE786560075FEC2 /* imageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imageLoader.cpp; sourceTree = "<group>"; };
 		3A44FEB11AE793DA0075FEC2 /* fa.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = fa.bmp; sourceTree = "<group>"; };
+		3A70939C1AEFC8CD0011C3D0 /* donut1.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = donut1.mtl; sourceTree = "<group>"; };
+		3A70939D1AEFC8CD0011C3D0 /* donut1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = donut1.obj; sourceTree = "<group>"; };
+		3A8C431E1AE811850061CC92 /* cosa.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cosa.obj; sourceTree = "<group>"; };
+		3A8C431F1AE8119D0061CC92 /* glm_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glm_util.c; sourceTree = "<group>"; };
+		3A8C43201AE8119D0061CC92 /* glm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glm.c; sourceTree = "<group>"; };
+		3A8C43211AE8119D0061CC92 /* glm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glm.h; sourceTree = "<group>"; };
+		3A8C43221AE8119D0061CC92 /* glmimg_devil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_devil.c; sourceTree = "<group>"; };
+		3A8C43231AE8119D0061CC92 /* glmimg_jpg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_jpg.c; sourceTree = "<group>"; };
+		3A8C43241AE8119D0061CC92 /* glmimg_png.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_png.c; sourceTree = "<group>"; };
+		3A8C43251AE8119D0061CC92 /* glmimg_sdl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_sdl.c; sourceTree = "<group>"; };
+		3A8C43261AE8119D0061CC92 /* glmimg_sim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_sim.c; sourceTree = "<group>"; };
+		3A8C43271AE8119D0061CC92 /* glmimg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg.c; sourceTree = "<group>"; };
+		3A8C43281AE8119D0061CC92 /* glmint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glmint.h; sourceTree = "<group>"; };
+		3A8C43311AE812D40061CC92 /* cosa.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cosa.mtl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +126,20 @@
 				32D65CEE1AE6CC6E00E615F6 /* RtMidi.h */,
 				3A44FEAC1AE786420075FEC2 /* imageLoader.h */,
 				3A44FEAD1AE786560075FEC2 /* imageLoader.cpp */,
+				3A70939C1AEFC8CD0011C3D0 /* donut1.mtl */,
+				3A70939D1AEFC8CD0011C3D0 /* donut1.obj */,
+				3A8C431E1AE811850061CC92 /* cosa.obj */,
+				3A8C43311AE812D40061CC92 /* cosa.mtl */,
+				3A8C431F1AE8119D0061CC92 /* glm_util.c */,
+				3A8C43201AE8119D0061CC92 /* glm.c */,
+				3A8C43211AE8119D0061CC92 /* glm.h */,
+				3A8C43221AE8119D0061CC92 /* glmimg_devil.c */,
+				3A8C43231AE8119D0061CC92 /* glmimg_jpg.c */,
+				3A8C43241AE8119D0061CC92 /* glmimg_png.c */,
+				3A8C43251AE8119D0061CC92 /* glmimg_sdl.c */,
+				3A8C43261AE8119D0061CC92 /* glmimg_sim.c */,
+				3A8C43271AE8119D0061CC92 /* glmimg.c */,
+				3A8C43281AE8119D0061CC92 /* glmint.h */,
 				3A25E9B81AE72FD8008EF785 /* piano */,
 			);
 			path = MIDIot;
@@ -165,9 +201,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A8C43291AE8119D0061CC92 /* glm_util.c in Sources */,
 				32D65CEF1AE6CC6E00E615F6 /* RtMidi.cpp in Sources */,
+				3A8C432A1AE8119D0061CC92 /* glm.c in Sources */,
+				3A8C432B1AE8119D0061CC92 /* glmimg_devil.c in Sources */,
+				3A8C432F1AE8119D0061CC92 /* glmimg_sim.c in Sources */,
+				3A8C432C1AE8119D0061CC92 /* glmimg_jpg.c in Sources */,
 				32C3B80B1AD3942E00E97EF2 /* main.cpp in Sources */,
+				3A8C432D1AE8119D0061CC92 /* glmimg_png.c in Sources */,
+				3A8C43301AE8119D0061CC92 /* glmimg.c in Sources */,
 				3A44FEAE1AE786560075FEC2 /* imageLoader.cpp in Sources */,
+				3A8C432E1AE8119D0061CC92 /* glmimg_sdl.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,7 +303,6 @@
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					__MACOSX_CORE__,
-					"ROBI=1",
 					"DEBUG=1",
 				);
 				GCC_VERSION = "";
