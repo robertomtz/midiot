@@ -17,6 +17,7 @@
 bool done;
 static void finish(int ignore){ done = true; }
 static GLuint texName[5];
+int delayMostrar=0;
 
 
 int notaCordenada[25]={190, 190, 202, 202, 215, 227, 227, 240, 240, 252, 252 , 265, 290, 290, 317, 317, 329, 342, 342, 354, 354, 367, 367, 379, 392};
@@ -44,7 +45,7 @@ int notaActual=0;
 int notaOprimidaActual=12;
 bool entraUno= false;
 int puntosMenos=0;
-bool help=false;
+bool help=true;
 bool endGame=false;
 
 
@@ -160,7 +161,7 @@ void myTimer(int v)
         score-=puntosMenos;
         notaActual=getRanNumber();
         puntosMenos=0;
-        help=false;
+        help=true;
     }
     
     //std::cout<<puntosMenos/2<<std::endl;
@@ -189,7 +190,6 @@ void myTimer(int v)
                     }
                     notaActual=getRanNumber();
                     puntosMenos=0;
-                    help=false;
                 }
             }
         }
@@ -264,7 +264,7 @@ void dibuja()
     int sharps=0;
     if (entrar && !endGame){
         if(start && help){
-            drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
+            drawText(-800, 75, .6, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
             for (int i=0; i<25; i++) {
                 glPushMatrix();
                 glTranslatef(-350+50*(i-sharps), notaCordenada[i]-6, 0);
@@ -279,15 +279,6 @@ void dibuja()
             
             
         }
-        glPushMatrix();
-        glTranslatef(posXNotes, notaCordenada[notaOprimidaActual], 0);
-        glColor3f(0.0, 1.0, 0.0);
-        if(notaNombre[notaOprimidaActual].find("#")!=-1){
-            drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
-        }
-        glutSolidSphere(12,12, 12);
-        glPopMatrix();
-
 
         glColor3f(0.0, 0.0, 0.0);
 //       glRectd(-470, 440, -380, 320);
@@ -370,19 +361,29 @@ void dibuja()
 
         if(oprimidoMidi && (!entraUno)){
             entraUno=true;
+            delayMostrar=0;
             if ((int)message[1]-48>=0) {
-                drawText(-100, -250, 1, notaNombre[notaOprimidaActual], GLUT_BITMAP_9_BY_15);
-                if(start){
-                    drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
-                }
                 playSound();
-                drawText(-400, -250, 1, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
             }
         }
+        
+        if(oprimidoMidi && delayMostrar<20){
+            delayMostrar++;
+            glColor3f(0.0, 1.0, 0.0);
+            drawText(-500, 75, .6, notaNombre[notaOprimidaActual], GLUT_BITMAP_9_BY_15);
+            glPushMatrix();
+            glTranslatef(posXNotes, notaCordenada[notaOprimidaActual], 0);
+            if(notaNombre[notaOprimidaActual].find("#")!=-1){
+                drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
+            }
+            glutSolidSphere(12,12, 12);
+            glPopMatrix();
+        }
 
+        glColor3f(0.0, 0.0, 0.0);
         glLineWidth(4);
         drawText(-1000, -950, .5, toString(tiempo), GLUT_BITMAP_9_BY_15); //time
-        drawText(-1250, -1000, .4, "press h for help (-50pts)", GLUT_BITMAP_9_BY_15);
+        drawText(-1250, -1000, .4, "press h to remove help", GLUT_BITMAP_9_BY_15);
         drawText(500, -950, .5, toString(score), GLUT_BITMAP_9_BY_15); //score
         
         //rectangulo fondo blanco de hoja
@@ -424,7 +425,7 @@ void myKey(unsigned char theKey, int mouseX, int mouseY)
                     score=1000;
                     notaActual=getRanNumber();
                     pausa=false;
-                    help=false;
+                    help=true;
                     endGame=false;
                 }
             }
@@ -445,9 +446,6 @@ void myKey(unsigned char theKey, int mouseX, int mouseY)
             break;
         case 'h':
             help=!help;
-            if (help){
-                score-=50;
-            }
             break;
             
         default:
