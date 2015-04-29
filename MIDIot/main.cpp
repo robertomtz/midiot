@@ -106,7 +106,7 @@ void initRendering()
 }
 
 int getRanNumber() {
-    return rand() % 24;
+    return rand() % 25;
 }
 
 void createRtMidiIn(){
@@ -145,7 +145,7 @@ void createRtMidiIn(){
         // Periodically check input queue.
         std::cout << "Reading MIDI from port ...";
     } else {
-        portName = "No MIDI device connected";
+        portName = "No hay MIDI connectado";
     }
 }
 
@@ -169,7 +169,6 @@ void myTimer(int v)
         score-=puntosMenos;
         notaActual=getRanNumber();
         puntosMenos=0;
-        help=true;
     }
     
     //std::cout<<puntosMenos/2<<std::endl;
@@ -260,11 +259,21 @@ void dibuja()
     glColor3f(0.0, 0.0, 0.0);
     
     if(endGame){
-        drawText(-1100, 800, .4, "Your Final Score is: " +toString(score), GLUT_BITMAP_9_BY_15);
+        drawText(-1100, 1000, .4, "Tu puntaje final es: " +toString(score), GLUT_BITMAP_9_BY_15);
+        if (score>35000) {
+            glColor3f(0.0, 0.0, 1.0);
+            drawText(-1100, 800, .4, "Tu nivel actual es: Experto", GLUT_BITMAP_9_BY_15);
+        } else if (score >20000){
+            glColor3f(0.0, 1.0, 0.0);
+            drawText(-1100, 800, .4, "Tu nivel actual es: Medio", GLUT_BITMAP_9_BY_15);
+        }else{
+            glColor3f(1.0, 0.0, 0.0);
+            drawText(-1100, 800, .4, "Tu nivel actual es: Novato", GLUT_BITMAP_9_BY_15);
+        }
         glColor3f(1, 1, 1);
         glRectd(-an, 300, an, an);
         glColor3f(0, 0, 0);
-        drawText(-1100, -800, .4, "Press S to start again!", GLUT_BITMAP_9_BY_15);
+        drawText(-1100, -800, .4, "Presiona S para comenzar!", GLUT_BITMAP_9_BY_15);
         glColor3f(1, 1, 1);
         glRectd(-an, -an, an, -200);
     }
@@ -272,7 +281,8 @@ void dibuja()
     int sharps=0;
     if (entrar && !endGame){
         if(start && help){
-            drawText(-800, 75, .6, notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
+            glColor3f(1, 1, 1);
+            drawText(-800, 75, .6, "NOTA: " + notaNombre[notaActual], GLUT_BITMAP_9_BY_15);
             for (int i=0; i<25; i++) {
                 glPushMatrix();
                 glTranslatef(-350+50*(i-sharps), notaCordenada[i]-6, 0);
@@ -294,13 +304,13 @@ void dibuja()
 
         if(!start){
             glColor3f(1.0, 1.0, 1.0);
-            drawText(-1650, 250, .3, "Hi superstar! In this game we will show you", GLUT_BITMAP_9_BY_15);
-            drawText(-1650, 0, .3, "how to read music from a music sheet.", GLUT_BITMAP_9_BY_15);
-            drawText(-1650, -250, .3, "For this, you will only need your", GLUT_BITMAP_9_BY_15);
-            drawText(-1650, -500, .3, "MIDI keyboard!", GLUT_BITMAP_9_BY_15);
-            drawText(-1650, -750, .3, "Press S when you are ready to start!", GLUT_BITMAP_9_BY_15);
-            drawText(-1650, -1000, .3, "Hit the notes as fast you can.", GLUT_BITMAP_9_BY_15);
-            drawText(-1650, -1250, .3, "Good luck & stay fingalikin' little chicken!", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, 250, .3, "Hola campeon! Este juego te mostrara", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, 0, .3, "como leer notas musicales.", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, -250, .3, "Para esto, solo necesitas tu teclaodo MIDI!", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, -500, .3, "Toca las notas tan rapido como puedas.", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, -750, .3, "Presiona S cuando estes listo para comenzar.", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, -1000, .3, "Buena suerte!", GLUT_BITMAP_9_BY_15);
+            drawText(-1650, -1250, .3, "- MIDIOT", GLUT_BITMAP_9_BY_15);
 
             glColor3f(0.0, 0.0, 0.0);
             glRectd(-an, -an, an, 120);
@@ -358,6 +368,7 @@ void dibuja()
             glPushMatrix();
             glTranslatef(posXNotes, notaCordenada[notaActual], 0);
             glPushMatrix();
+            glColor3f(0, 0, 1);
             glRotatef(xRotate, 0, 0, 1.0);
             glutSolidSphere(12,15, 15);
             glPopMatrix();
@@ -370,7 +381,7 @@ void dibuja()
         }
 
         drawText(-2000, 1850, 0.25, portName, GLUT_BITMAP_9_BY_15);
-        drawText(1300, 1850, 0.25, "MIDI OT", GLUT_BITMAP_9_BY_15);
+        drawText(1300, 1850, 0.25, "MIDIOT", GLUT_BITMAP_9_BY_15);
 
         if(oprimidoMidi && (!entraUno)){
             entraUno=true;
@@ -386,7 +397,7 @@ void dibuja()
             if (deltaScore<0){
                 glColor3f(1.0, 0.0, 0.0);
             }
-            drawText(-500, 75, .6, notaNombre[notaOprimidaActual], GLUT_BITMAP_9_BY_15);
+            drawText(-50, 75, .6, notaNombre[notaOprimidaActual], GLUT_BITMAP_9_BY_15);
             glPushMatrix();
             glTranslatef(posXNotes, notaCordenada[notaOprimidaActual], 10);
             if(notaNombre[notaOprimidaActual].find("#")!=-1){
@@ -403,16 +414,27 @@ void dibuja()
 
         glColor3f(0.0, 0.0, 0.0);
         glLineWidth(4);
-        drawText(-1000, -950, .5, toString(tiempo), GLUT_BITMAP_9_BY_15); //time
-        drawText(-1250, -1000, .4, "press h to remove help", GLUT_BITMAP_9_BY_15);
+        if(tiempo>10){
+            glColor3f(0.0, 1.0, 0.0);
+        } else {
+            glColor3f(1.0, 0.0, 0.0);
+        }
+        drawText(800, 110, .5, toString(tiempo), GLUT_BITMAP_9_BY_15); //time
+        drawText(-1250, -1000, .4, "h - ayuda p - pausa r - reiniciar", GLUT_BITMAP_9_BY_15);
+        drawText(-1250, -1150, .4, "esc-salir", GLUT_BITMAP_9_BY_15);
         drawText(500, -950, .5, toString(score), GLUT_BITMAP_9_BY_15); //score
+        
+        if (pausa){
+            glColor3f(1.0, 1.0, 0.0);
+            drawText(-250, -150, .4, "PAUSA", GLUT_BITMAP_9_BY_15);
+        }
         
         //rectangulo fondo blanco de hoja
         glColor3f(1, 1, 1);
         glRectd(-an, 120, an, an);
         
         //    rectangulo fondo rojo
-        glColor3f(0.53, 0.17, 0.18);
+        glColor3f(0.25, 0.27, 0.58);
         glRectd(-an, -an, an, an);
         
     } else{
@@ -420,12 +442,12 @@ void dibuja()
         glLineWidth(6);
         drawText(-250, 50, 1.2, "MIDIOT", GLUT_BITMAP_9_BY_15);
         glLineWidth(4);
-        drawText(-740, -100, .6, "You better C sharp", GLUT_BITMAP_9_BY_15);
-        drawText(-740, -270, .6, "or you will B flat!", GLUT_BITMAP_9_BY_15);
+        drawText(-740, -100, .6, "Ganate a esa chica,", GLUT_BITMAP_9_BY_15);
+        drawText(-740, -270, .6, "aprendiendo musica!", GLUT_BITMAP_9_BY_15);
         
         glColor3f(0, 0, 0);
         glLineWidth(4);
-        drawText(-400, -670, .4, "Press ENTER to Start", GLUT_BITMAP_9_BY_15);
+        drawText(-150, -670, .4, "Presiona ENTER!", GLUT_BITMAP_9_BY_15);
         glColor3f(0, 0, 0);
         glRectd(-an, -an/3, an, an/3);
     }
@@ -446,7 +468,6 @@ void myKey(unsigned char theKey, int mouseX, int mouseY)
                     score=1000;
                     notaActual=getRanNumber();
                     pausa=false;
-                    help=true;
                     endGame=false;
                 }
             }
@@ -457,6 +478,19 @@ void myKey(unsigned char theKey, int mouseX, int mouseY)
                 pausa=!pausa;
             }
         break;
+            
+        case 'r':
+        case'R':
+            if(entrar){
+                start=true;
+                tiempo=30;
+                score=1000;
+                notaActual=getRanNumber();
+                pausa=false;
+                endGame=false;
+            }
+            break;
+    
         case 27:
             exit(-1);
             //terminate the program
