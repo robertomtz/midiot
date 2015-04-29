@@ -35,6 +35,8 @@ bool notePressed=false;
 bool pausa=false;
 bool entrar=false;
 
+int deltaScore=1000;
+int xRotate=0;
 int score=1000;
 double tiempo=30;
 int an=640,al=480;
@@ -79,6 +81,7 @@ void initRendering()
 {
     GLuint i=0;
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
 //    glEnable(GL_LIGHTING);
 //    glEnable(GL_LIGHT0);
     glEnable(GL_NORMALIZE); ///Users/mariaroque/Imagenes
@@ -148,6 +151,11 @@ void createRtMidiIn(){
 
 void myTimer(int v)
 {
+        xRotate=xRotate+1;
+        if (xRotate >= 360) {
+            xRotate = 0;
+        }
+    
     if(start && !pausa){
         tiempo-=0.01;
         puntosMenos++;
@@ -180,10 +188,11 @@ void myTimer(int v)
                     entraUno=false;
                     posXNotes+=50;
                     if(notaOprimidaActual==notaActual){
-                        score+=1000-puntosMenos/2;
+                        deltaScore=1000-puntosMenos/2;
                     } else{
-                        score-=(200+puntosMenos/2);
+                        deltaScore=-200-puntosMenos/2;
                     }
+                    score+=deltaScore;
                     if (posXNotes==500) {
                         posXNotes=-350;
                     }
@@ -348,10 +357,15 @@ void dibuja()
         if(start){
             glPushMatrix();
             glTranslatef(posXNotes, notaCordenada[notaActual], 0);
+            glPushMatrix();
+            glRotatef(xRotate, 0, 0, 1.0);
+            glutSolidSphere(12,15, 15);
+            glPopMatrix();
             if(notaNombre[notaActual].find("#")!=-1){
+                glPushMatrix();
                 drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
+                glPopMatrix();
             }
-            glutSolidSphere(12,12, 12);
             glPopMatrix();
         }
 
@@ -369,13 +383,21 @@ void dibuja()
         if(oprimidoMidi && delayMostrar<20){
             delayMostrar++;
             glColor3f(0.0, 1.0, 0.0);
+            if (deltaScore<0){
+                glColor3f(1.0, 0.0, 0.0);
+            }
             drawText(-500, 75, .6, notaNombre[notaOprimidaActual], GLUT_BITMAP_9_BY_15);
             glPushMatrix();
-            glTranslatef(posXNotes, notaCordenada[notaOprimidaActual], 0);
+            glTranslatef(posXNotes, notaCordenada[notaOprimidaActual], 10);
             if(notaNombre[notaOprimidaActual].find("#")!=-1){
                 drawText(50, 100, .15, "#", GLUT_BITMAP_9_BY_15);
             }
             glutSolidSphere(12,12, 12);
+            glPopMatrix();
+            glPushMatrix();
+            glLineWidth(2);
+            glTranslated(0, delayMostrar, 0);
+            drawText(950, -1350, .3, toString(deltaScore), GLUT_BITMAP_9_BY_15); //score
             glPopMatrix();
         }
 
@@ -479,7 +501,7 @@ int main(int argc, char *argv[])
     glutCreateWindow("MIDIot A01190757 - A01190871");
     initRendering();
     glClearColor(1.0,1.0,1.0,1.0);
-//    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
     glutKeyboardFunc(myKey);
     glutDisplayFunc(dibuja);
     glutTimerFunc(10, myTimer, 1);
